@@ -45,18 +45,56 @@
  *   createPaanOrder({type:"meetha"}, {extra:"gulkand"}) // => {type:"meetha",extra:"gulkand"}
  *   updatePrices({meetha:30, saada:20}, 10)              // => {meetha:40, saada:30}
  */
+
+const isValidObject = (obj) =>
+  typeof obj === "object" &&
+  obj !== null &&
+  !Array.isArray(obj);
+
 export function createPaanOrder(basePaan, customizations) {
-  // Your code here
+  if (!isValidObject(basePaan)) {
+    return {};
+  }
+
+  const safeCustomizations = isValidObject(customizations)
+    ? customizations
+    : {};
+
+  return Object.assign({}, basePaan, safeCustomizations);
 }
 
 export function freezeMenu(menu) {
-  // Your code here
+  if (!isValidObject(menu)) {
+    return {};
+  }
+
+  return Object.freeze({ ...menu });
 }
 
 export function updatePrices(menu, increase) {
-  // Your code here
+  if (!isValidObject(menu) || typeof increase !== "number") {
+    return {};
+  }
+
+  return Object.fromEntries(
+    Object.entries(menu).map(([item, price]) => [
+      item,
+      typeof price === "number" ? price + increase : price
+    ])
+  );
 }
 
 export function mergeDailySpecials(regularMenu, specialsMenu) {
-  // Your code here
+  const safeRegularMenu = isValidObject(regularMenu)
+    ? regularMenu
+    : {};
+
+  const safeSpecialsMenu = isValidObject(specialsMenu)
+    ? specialsMenu
+    : {};
+
+  return {
+    ...safeRegularMenu,
+    ...safeSpecialsMenu
+  };
 }

@@ -90,21 +90,27 @@ export function whisperChaiOrder(order) {
 
 export function hasSpecialIngredient(order, ingredient) {
   // Your code here
+  if(typeof order != 'string' || typeof ingredient != 'string'){
+    return false;
+  }
+
+  return order.toLowerCase().includes(ingredient.toLowerCase());
 }
 
 export function getFirstAndLastChar(order) {
   // Your code here
-  if(typeof order != 'string' ){
-
-  }
-
-  const order1 = order.trim();
-  if(order1 == ""){
+  if (typeof order !== "string") {
     return null;
   }
-  const first = order.charAt(0);
-  const last = order.length() - 1;
-  const end = order.charAt(last);
 
-  return {first, end};
+  const trimmed = order.trim();
+
+  if (trimmed === "") {
+    return null;
+  }
+
+  const first = trimmed.charAt(0);
+  const last = trimmed.at(-1);
+
+  return { first, last };
 }
